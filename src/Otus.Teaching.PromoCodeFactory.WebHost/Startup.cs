@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
 using Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement;
 using Otus.Teaching.PromoCodeFactory.DataAccess.Data;
 using Otus.Teaching.PromoCodeFactory.DataAccess.Repositories;
+using Serilog;
 
 namespace Otus.Teaching.PromoCodeFactory.WebHost
 {
@@ -21,7 +23,28 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+
+            #region Logger
+
+            string LogFileName = "Applog.txt";
+
+            if (File.Exists(LogFileName)) File.Delete(LogFileName);
+
+
+
+            Log.Logger = new LoggerConfiguration()
+                                   .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
+                                   .Enrich.FromLogContext()
+                                   .WriteTo.File(LogFileName)
+                                   .CreateLogger();
+
+            Log.Logger.Information("Point 1");
+
+
+            #endregion
+
+
+            services.AddControllersWithViews();
             services.AddScoped(typeof(IRepository<Employee>), (x) => 
                 new InMemoryRepository<Employee>(FakeDataFactory.Employees));
             services.AddScoped(typeof(IRepository<Role>), (x) => 

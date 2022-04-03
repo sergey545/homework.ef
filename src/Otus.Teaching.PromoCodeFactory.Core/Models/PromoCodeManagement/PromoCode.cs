@@ -4,8 +4,7 @@ using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
 
 namespace Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement
 {
-    public class PromoCode
-        : BaseEntity
+    public class PromoCode: BaseEntity
     {
         public string Code { get; set; }
 
