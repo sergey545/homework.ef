@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
-using Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement;
 
-namespace Otus.Teaching.PromoCodeFactory.DataAccess.Data
+
+namespace Otus.Teaching.PromoCodeFactory.Core.Data
 {
     public static class FakeDataFactory
     {
@@ -16,7 +15,6 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Data
                 Email = "owner@somemail.ru",
                 FirstName = "Иван",
                 LastName = "Сергеев",
-                Role = Roles.FirstOrDefault(x => x.Name == "Admin"),
                 AppliedPromocodesCount = 5
             },
             new Employee()
@@ -25,20 +23,19 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Data
                 Email = "andreev@somemail.ru",
                 FirstName = "Петр",
                 LastName = "Андреев",
-                Role = Roles.FirstOrDefault(x => x.Name == "PartnerManager"),
                 AppliedPromocodesCount = 10
             },
         };
 
-        public static IEnumerable<Role> Roles => new List<Role>()
+        public static IEnumerable<EmployeeRole> Roles => new List<EmployeeRole>()
         {
-            new Role()
+            new EmployeeRole()
             {
                 Id = Guid.Parse("53729686-a368-4eeb-8bfa-cc69b6050d02"),
                 Name = "Admin",
                 Description = "Администратор",
             },
-            new Role()
+            new EmployeeRole()
             {
                 Id = Guid.Parse("b0ae7aac-5493-45cd-ad16-87426a5e7665"),
                 Name = "PartnerManager",

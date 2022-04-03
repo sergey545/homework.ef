@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime;
-using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
 
-namespace Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement
+
+namespace Otus.Teaching.PromoCodeFactory.Core
 {
     public class PromoCode: BaseEntity
     {

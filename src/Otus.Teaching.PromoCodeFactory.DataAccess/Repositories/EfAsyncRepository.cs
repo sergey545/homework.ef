@@ -8,7 +8,7 @@ using Otus.Teaching.PromoCodeFactory.Core;
 
 namespace Otus.Teaching.PromoCodeFactory.DataAccess
 {
-    public class EfAsyncRepository<T> : IAsyncRepository<T> where T: BaseEntity
+    public class EfAsyncRepository<T> : IAsyncRepositoryT<T> where T: BaseEntity
     {
         
         private DbContext _context;
@@ -109,5 +109,39 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess
             return Task.FromResult(rez);
         }
 
+
+
+        public Task<T> GetRandomObjectAsync()
+        {
+            Random random = new Random();
+            List<T> list = GetAllAsync().Result.ToList();
+            int count = list.Count;
+            int rndNum = random.Next(0, count);
+            T t = list[rndNum];
+            return Task.FromResult(t);
+        }
+
+        public Task<List<T>> GetRandomListAsync(int count)
+        {
+            Random random = new Random();
+            //TODO вытащить в отдельный класс - обертку над репозиторием
+
+            List<T> list = GetAllAsync().Result.ToList();
+            int countTotal = list.Count;
+            List<T> rezList = new List<T>();
+
+            if (countTotal <= 0) return Task.FromResult(rezList);
+
+            for (int i=1; i<=count; i++)
+            {
+                int rndNum = random.Next(0, countTotal);
+                T t = list[rndNum];
+                rezList.Add(t);
+                //TODO сделать проверку, чтобы не было дубликатов
+            }
+            
+
+            return Task.FromResult(rezList);
+        }
     }
 }

@@ -13,7 +13,7 @@ using Otus.Teaching.PromoCodeFactory.Core;
 
 namespace Otus.Teaching.Concurrency.Import.DataAccess.Repositories
 {
-    public class WebApiAsyncRepository<T> : IAsyncRepository<T> where T : BaseEntity
+    public class WebApiAsyncRepository<T> : IAsyncRepositoryT<T> where T : BaseEntity
     {
         //GenericRepository на webApi
         
@@ -234,7 +234,7 @@ namespace Otus.Teaching.Concurrency.Import.DataAccess.Repositories
 
         }
 
-        Task<List<T>> IAsyncRepository<T>.GetItemsListAsync()
+        Task<List<T>> IAsyncRepositoryT<T>.GetItemsListAsync()
         {
             List<T> rez = new List<T>();
 
@@ -247,10 +247,20 @@ namespace Otus.Teaching.Concurrency.Import.DataAccess.Repositories
             return Task.FromResult(rez);
         }
 
-        Task<CommonOperationResult> IAsyncRepository<T>.InitAsync(bool deleteDb)
+        Task<CommonOperationResult> IAsyncRepositoryT<T>.InitAsync(bool deleteDb)
         {
             CommonOperationResult rez = CommonOperationResult.sayOk();
             return Task.FromResult(rez);
+        }
+
+        public Task<T> GetRandomObject()
+        {
+            Random random = new Random();
+            List<T> list = GetAllAsync().Result.ToList();
+            int count = list.Count;
+            int rndNum = random.Next(0, count);
+            T t = list[rndNum];
+            return Task.FromResult(t);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Otus.Teaching.PromoCodeFactory.Core
 {
-    public interface IAsyncRepository<T> where T : BaseEntity
+    public interface IAsyncRepositoryT<T> where T : BaseEntity
     {
 
         // подробнее https://metanit.com/sharp/entityframework/3.13.php
@@ -28,6 +28,11 @@ namespace Otus.Teaching.PromoCodeFactory.Core
         public Task<CommonOperationResult> DeleteAsync(Guid id);
 
         public Task<CommonOperationResult> InitAsync(bool deleteDb = false);
+
+        public Task<T> GetRandomObjectAsync();
+
+        public Task<List<T>> GetRandomListAsync(int count);
+
 
     }
 }

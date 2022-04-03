@@ -25,7 +25,7 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess
             if (!optionsBuilder.IsConfigured)
             {
                 // optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=u1325524_mssql;Trusted_Connection=True;");
-                optionsBuilder.UseSqlServer("Server=37.140.192.97;Database=u1325524_mssql;User ID=u1325524_root;Password=_9Hjb73i;");
+              //  optionsBuilder.UseSqlServer("Server=37.140.192.97;Database=u1325524_mssql;User ID=u1325524_root;Password=_9Hjb73i;");
             }
         }
 

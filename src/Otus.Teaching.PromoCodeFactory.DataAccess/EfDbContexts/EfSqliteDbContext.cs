@@ -43,6 +43,10 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess
             modelBuilder.Entity<Employee>();
             modelBuilder.Entity<EmployeeRole>();
             modelBuilder.Entity<ConsoleToApiMessage>();
+            modelBuilder.Entity<Customer>();
+            modelBuilder.Entity<Preference>();
+            modelBuilder.Entity<PromoCode>();
+
 
             base.OnModelCreating(modelBuilder);
         }

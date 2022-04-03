@@ -7,7 +7,7 @@ using Otus.Teaching.PromoCodeFactory.Core;
 
 namespace Otus.Teaching.PromoCodeFactory.DataAccess
 {
-    public class InMemoryAsyncRepository<T> : IAsyncRepository<T> where T : BaseEntity, new ()
+    public class InMemoryAsyncRepository<T> : IAsyncRepositoryT<T> where T : BaseEntity, new ()
     {
         bool DebugMode = true;
         
@@ -89,7 +89,7 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess
             return Task.FromResult(CommonOperationResult.sayOk());
         }
 
-        Task<List<T>> IAsyncRepository<T>.GetItemsListAsync()
+        Task<List<T>> IAsyncRepositoryT<T>.GetItemsListAsync()
         {
             return Task.FromResult(Data);
         }

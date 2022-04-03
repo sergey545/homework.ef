@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Otus.Teaching.PromoCodeFactory.Core.Abstractions.Repositories;
-using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
-using Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement;
-using Otus.Teaching.PromoCodeFactory.DataAccess.Data;
+using Otus.Teaching.PromoCodeFactory.Core;
+using Otus.Teaching.PromoCodeFactory.DataAccess;
+using Otus.Teaching.PromoCodeFactory.DataAccess;
 using Otus.Teaching.PromoCodeFactory.DataAccess.Repositories;
 using Serilog;
+using Serilog.Events;
 
 namespace Otus.Teaching.PromoCodeFactory.WebHost
 {
@@ -23,6 +23,11 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+
+
+
 
             #region Logger
 
@@ -45,14 +50,42 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
 
 
             services.AddControllersWithViews();
-            services.AddScoped(typeof(IRepository<Employee>), (x) => 
-                new InMemoryRepository<Employee>(FakeDataFactory.Employees));
-            services.AddScoped(typeof(IRepository<Role>), (x) => 
-                new InMemoryRepository<Role>(FakeDataFactory.Roles));
-            services.AddScoped(typeof(IRepository<Preference>), (x) => 
-                new InMemoryRepository<Preference>(FakeDataFactory.Preferences));
-            services.AddScoped(typeof(IRepository<Customer>), (x) => 
-                new InMemoryRepository<Customer>(FakeDataFactory.Customers));
+
+            #region repositories
+
+            IAsyncRepositoryT<Employee> employeesRepo = null;
+            IAsyncRepositoryT<EmployeeRole> rolesRepo = null;
+            IAsyncRepositoryT<ConsoleToApiMessage> messagesRepo = null;
+
+            Log.Logger.Information($"Initializing SQLITE repos");
+
+            EFSqliteDbContext sqLitedbContext = new EFSqliteDbContext();
+
+            try
+            {
+
+                employeesRepo = new EfAsyncRepository<Employee>(sqLitedbContext);
+                rolesRepo = new EfAsyncRepository<EmployeeRole>(sqLitedbContext);
+                messagesRepo = new EfAsyncRepository<ConsoleToApiMessage>(sqLitedbContext);
+                employeesRepo.InitAsync(true);
+
+                Log.Logger.Information($"SQLITE repos  initialized ok");
+
+                services.AddTransient(typeof(IAsyncRepositoryT<Employee>), (x) => new EfAsyncRepository<Employee>(new EFSqliteDbContext()));
+                services.AddTransient(typeof(IAsyncRepositoryT<EmployeeRole>), (x) => new EfAsyncRepository<EmployeeRole>(new EFSqliteDbContext()));
+
+                services.AddScoped(typeof(IAsyncRepositoryT<Employee>), (x) => new EfAsyncRepository<Employee>(new EFSqliteDbContext()));
+                services.AddScoped(typeof(IAsyncRepositoryT<EmployeeRole>), (x) => new EfAsyncRepository<EmployeeRole>(new EFSqliteDbContext()));
+                services.AddScoped(typeof(IAsyncRepositoryT<ConsoleToApiMessage>), (x) => new EfAsyncRepository<ConsoleToApiMessage>(new EFSqliteDbContext()));
+
+
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error($"{ex.Message}");
+            }
+            
+            #endregion
 
             services.AddOpenApiDocument(options =>
             {
