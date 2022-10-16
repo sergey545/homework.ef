@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Otus.Teaching.PromoCodeFactory.Core.Domain.Administration
+namespace Otus.Teaching.PromoCodeFactory.Core
 {
-    public class Role
-        : BaseEntity
+    public class EmployeeRole : BaseEntity
     {
         public string Name { get; set; }
 

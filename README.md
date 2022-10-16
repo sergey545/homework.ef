@@ -1,5 +1,7 @@
 # Otus.Teaching.PromoCodeFactory
 
+Homework that Im currently doing an gonna pass. No console client here.
+
 Проект для домашних заданий и демо по курсу `C# ASP.NET Core Разработчик` от `Отус`.
 Cистема `Promocode Factory` для выдачи промокодов партнеров для клиентов по группам предпочтений.
 
