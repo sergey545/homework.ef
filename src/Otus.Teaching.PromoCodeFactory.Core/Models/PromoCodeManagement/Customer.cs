@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement
+namespace Otus.Teaching.PromoCodeFactory.Core
 {
     public class Customer
         :BaseEntity
@@ -13,6 +13,8 @@ namespace Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement
 
         public string Email { get; set; }
 
-        //TODO: Списки Preferences и Promocodes 
+        public List<Preference> Preferences { get; set; }
+
+        public List<PromoCode> PromoCodes { get; set; }
     }
 }
